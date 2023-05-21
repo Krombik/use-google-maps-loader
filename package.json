@@ -1,0 +1,56 @@
+{
+  "name": "use-google-maps-loader",
+  "version": "1.0.0",
+  "description": "React hook for loading the Google Maps JavaScript API",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krombik/use-google-maps-loader.git"
+  },
+  "author": "Krombik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Krombik/use-google-maps-loader/issues"
+  },
+  "homepage": "https://github.com/Krombik/use-google-maps-loader#readme",
+  "type": "module",
+  "source": "src/index.ts",
+  "scripts": {
+    "build": "ts-node ./scripts/build.mts",
+    "release": "npm publish ./build"
+  },
+  "dependencies": {
+    "google-maps-js-api-loader": "^3.0.0",
+    "lodash.noop": "^3.0.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "@types/react": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/lodash.noop": "^3.0.7",
+    "@types/node": "^20.2.1",
+    "@types/react": "^18.2.6",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">10"
+  },
+  "keywords": [
+    "react",
+    "google",
+    "maps",
+    "asynchronous",
+    "async",
+    "loader",
+    "browser"
+  ],
+  "sideEffects": false
+}
