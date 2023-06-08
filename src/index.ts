@@ -5,7 +5,7 @@ import {
 import noop from "lodash.noop";
 import { useLayoutEffect, useState } from "react";
 
-const useGoogleMapsLoader = (options?: {
+export type UseGoogleMapsLoaderOptions = {
   onLoaded?(): void;
   onError?(err: Error): void;
   /**
@@ -13,18 +13,15 @@ const useGoogleMapsLoader = (options?: {
    * @default true
    */
   load?: boolean;
-}) => {
-  let isUnmounted: true | undefined;
+};
 
-  useLayoutEffect(
-    () => () => {
-      isUnmounted = true;
-    },
-    []
-  );
+const useGoogleMapsLoader = (options?: UseGoogleMapsLoaderOptions) => {
+  const [status, setStatus] = useState(GoogleMapsLoader.status);
 
-  const [status, setStatus] = useState<GoogleMapsLoaderStatus>(() => {
-    if (GoogleMapsLoader.status < 2) {
+  useLayoutEffect(() => {
+    if (status < 2) {
+      let isAlive = true;
+
       options ||= {};
 
       (options.load == false
@@ -32,24 +29,26 @@ const useGoogleMapsLoader = (options?: {
         : GoogleMapsLoader.load()
       ).then(
         () => {
-          if (!isUnmounted) {
+          if (isAlive) {
             setStatus(2);
 
             (options!.onLoaded || noop)();
           }
         },
         (err) => {
-          if (!isUnmounted) {
+          if (isAlive) {
             setStatus(3);
 
             (options!.onError || noop)(err);
           }
         }
       );
-    }
 
-    return GoogleMapsLoader.status;
-  });
+      return () => {
+        isAlive = false;
+      };
+    }
+  }, []);
 
   return status;
 };
